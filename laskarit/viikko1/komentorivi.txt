@@ -1,130 +1,24 @@
-commit bc9e27a6739acb72a9a62099b5f755a9e0022829
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 21:19:54 2019 +0200
+kurssit
+└── alihakemisto_ot2019
+    └── viikko1
+        └── Unicafe
+            ├── pom.xml
+            └── src
+                ├── main
+                │   ├── java
+                │   │   └── com
+                │   │       └── mycompany
+                │   │           └── unicafe
+                │   │               ├── Kassapaate.java
+                │   │               ├── Maksukortti.java
+                │   │               └── Paaohjelma.java
+                │   └── resources
+                └── test
+                    └── java
+                        └── com
+                            └── mycompany
+                                └── unicafe
+                                    └── MaksukorttiTest.java
 
-    tiedsoto 22
-
- tiedostoja/file22 | 1 +
- 1 file changed, 1 insertion(+)
-
-commit a9fe52d05da79e185370feb13dabaf1eed92c527
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 21:19:20 2019 +0200
-
-    tiedostoja muutoksia
-
- tiedostoja/file1 | 0
- tiedostoja/file2 | 0
- 2 files changed, 0 insertions(+), 0 deletions(-)
-
-commit 9ed50f2e47579bc498759e2b4b1b6a765247301a
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 21:15:17 2019 +0200
-
-    tiedostoja lisätty
-
- tiedostoja/file1 | 0
- tiedostoja/file2 | 0
- tiedostoja/file3 | 0
- 3 files changed, 0 insertions(+), 0 deletions(-)
-
-commit 79fc93f3a54fde46c416e446d0a45a5d0f2b6225
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 20:58:05 2019 +0200
-
-    kolmas muutettu
-
- kolmas.txt | 1 +
- 1 file changed, 1 insertion(+)
-
-commit c0e81c7ac15ea7499f8ea5f168d3d784f9bea04c
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 20:57:53 2019 +0200
-
-    eka muutettu
-
- eka.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 179caa807ee4aaf09e1be82bef08759cd17030f2
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 20:40:35 2019 +0200
-
-    wut t
-
- eka.txt | 1 +
- 1 file changed, 1 insertion(+)
-
-commit a0076b0bd283a91e57e965e081c847b1992ec4f4
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 20:40:13 2019 +0200
-
-    jsfds
-
- tiedosto.txt | 1 -
- 1 file changed, 1 deletion(-)
-
-commit 5889b675ba791bfc9444c3e24e02b135011b7fcf
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 20:38:48 2019 +0200
-
-    jsdhf
-
- toinen.txt | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
-
-commit e8a467c063ae1657da3a514d9340dd37c1d77619
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 20:35:16 2019 +0200
-
-    pätkitty lorem imspu
-
- tiedosto.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 936e7376294326c19a40837d510a662472248385
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Sun Mar 17 20:33:54 2019 +0200
-
-    lisätty lorem impsm
-
- tiedosto.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 50fe00cbba1ef093ff2de5dcdea127a8c287cdbe
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Wed Mar 13 21:58:47 2019 +0200
-
-    kansio
-
- stuff/neljas.txt | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
-
-commit 84fb768abc35b1bc0e4016a0afa41ca63c634ce1
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Wed Mar 13 21:55:39 2019 +0200
-
-    kolmas
-
- kolmas.txt | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
-
-commit 2b5a6d4468ca3253d862c4c89796b1d5156f0b36
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Wed Mar 13 21:48:33 2019 +0200
-
-    muutos ja lisäys
-
- tiedosto.txt | 1 +
- toinen.txt   | 0
- 2 files changed, 1 insertion(+)
-
-commit ebd0edcf21ad377a801861d04caf308bd5295116
-Author: Lauri Halttunen <lauri.halttunen@helsinki.fi>
-Date:   Tue Mar 12 19:29:05 2019 +0200
-
-    tiedosto.txt luotu
-
- tiedosto.txt | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
+15 directories, 5 files
 
