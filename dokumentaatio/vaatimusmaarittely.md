@@ -1,9 +1,9 @@
-#Vaatimusmäärittely
-###Sovelluksen tarkoitus
+# Vaatimusmäärittely
+### Sovelluksen tarkoitus
 Maailmanluontisovelluksen tarkoituksena on auttaa itse luodun fiktiivisen maailman paikkojen ja hahmojen tietojen säilyttämisessä ja hallinnassa. Jokaisella käyttäjällä on oma maailmansa, johon voi lisätä kaupunkeja ja hahmoja ja muokata niiden tietoja.
-###Käyttäjät
+### Käyttäjät
 Sovelluksella on ainoastaan yksi käyttäjärooli, jossa pääsee käsiksi vain omaan maailmaan.
-###Perusversion tarjoamat toiminnallisuudet
+### Perusversion tarjoamat toiminnallisuudet
 - Käyttäjätilin luonti
   - Ensimmäisessä näkymässä, kirjautumissivulla, on nappi toiseen näkymään, jossa voi luoda uuden käyttäjätilin.
   - Käyttäjä syöttää käyttäjänimen ja salasanan, joita hän käyttää kirjautumiseen.
@@ -41,7 +41,7 @@ Sovelluksella on ainoastaan yksi käyttäjärooli, jossa pääsee käsiksi vain 
   - Muuten sama kuin kaupunginluontinäkymä, mutta tyhjien kenttien sijaan sisältö kopioidaan kaupungin tiedoista, tallennusnappi päivittää tiedot kaupunkiin eikä luo uutta ja takaisin-nappi vie kaupunkisivulle käyttäjäsivun sijaan
 - Hahmonmuokkaustila
   - Muuten sama kuin hahmonluontinäkymä, mutta tyhjien kenttien sijaan sisältö kopioidaan hahmon tiedoista, tallennusnappi päivittää hahmon tiedot eikä luo uutta ja takaisin-nappi vie hahmon sivulle käyttäjäsivun sijaan
-###Jatkokehitysideoita
+### Jatkokehitysideoita
 Jos aika sallii, ohjelmaan lisätään seuraavat toiminnallisuudet:
 - Hahmojen ja kaupunkien poistaminen
 - Yhteys hahmojen ja kaupunkien välille: kaupunkisivulle linkki listaan hahmoista, jotka asuvat kyseisessä kaupungissa
