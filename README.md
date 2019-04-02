@@ -13,3 +13,5 @@
 ### Viikko 2
 [jacoco-screenshot](https://github.com/luuranko/ot-harjoitustyo/blob/master/laskarit/viikko2/jacoco.png)
 
+### Viikko 3
+[monopoli-tietokantakaavio](https://github.com/luuranko/ot-harjoitustyo/blob/master/laskarit/viikko3/monopolikaavio.png)
