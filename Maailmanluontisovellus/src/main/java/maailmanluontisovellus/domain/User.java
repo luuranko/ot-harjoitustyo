@@ -41,7 +41,23 @@ public class User {
         return settles;
     }
 
+    public boolean addChara(String name) {
+        if (this.charas.contains(new Character(name))) {
+            return false;
+        } else {
+            this.charas.add(new Character(name));
+            return true;
+        }
+    }
     
+    public boolean addSettle(String name) {
+        if (this.settles.contains(new Settlement(name))) {
+            return false;
+        } else {
+            this.settles.add(new Settlement(name));
+            return true;
+        }
+    }
 
     @Override
     public boolean equals(Object obj) {

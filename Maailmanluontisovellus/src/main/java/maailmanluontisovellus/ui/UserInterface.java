@@ -23,9 +23,11 @@ import maailmanluontisovellus.domain.User;
  * @author halauri
  */
 public class UserInterface {
-    Logic logic;
+    private Logic logic;
     
-    ArrayList<User> users;
+    private ArrayList<User> users;
+    
+    private User currentUser;
     
     
     public UserInterface() {
@@ -58,6 +60,7 @@ public class UserInterface {
         login.getChildren().addAll(enterName, nameField, enterPass, passField, loginButton, error, guideNew, goToCreateAccount, loginExit);
         login.setPadding(new Insets(10, 10, 10, 10));
         
+        //exit app
         loginExit.setOnAction((event) -> {
             stop();
         });
@@ -79,23 +82,32 @@ public class UserInterface {
         Button createExit = new Button("Exit");
         
         createNew.getChildren().addAll(enterNewName, newNameField, enterNewPass, newPassField, createButton, creationError, createExit);
+        createNew.setPadding(new Insets(10, 10, 10, 10));
         
+        //exit app
         createExit.setOnAction((event) -> {
             stop();
         });
         
+        //creating new user
         createButton.setOnAction((event) -> {
-            boolean okay = true;
+            boolean usernameOkay = true;
+            boolean passwordOkay = true;
             for (int i =0; i < users.size(); i++){
                 if (users.get(i).getName().equals(newNameField.getText())){
-                    okay = false;
+                    usernameOkay = false;
                 } 
             }
             if (newNameField.getText().isEmpty()) {
-                okay = false;
+                usernameOkay = false;
             }
-            if (okay) {
+            if (newPassField.getText().isEmpty()) {
+                passwordOkay = false;
+            }
+            if (usernameOkay == false) {
                 creationError.setText("Pick another username");
+            } else if (passwordOkay == false) {
+                creationError.setText("Don't leave password empty");
             } else {
                 User newUser = new User(newNameField.getText(), newPassField.getText());
                 users.add(newUser);
@@ -105,20 +117,30 @@ public class UserInterface {
         
         Scene createScene = new Scene(createNew);
         
+        //login view -> create new user view
         goToCreateAccount.setOnAction((event) -> {
             stage.setScene(createScene);
         });
         
         //MAIN PAGE VIEW
         
-        VBox mainPage = new VBox();
+        GridPane mainPage = new GridPane();
         
         Label welcomeText = new Label("Welcome");
         Button charCreation = new Button("Create a new character");
+        Button settleCreation = new Button("Create a new settlement");
+        Button charCatalogue = new Button("     Your characters     ");
+        Button settleCatalogue = new Button("     Your settlements     ");
         Button mainExit = new Button("Exit");
         
-        mainPage.getChildren().addAll(welcomeText, charCreation, mainExit);
+        mainPage.add(welcomeText, 2, 1);
+        mainPage.add(charCreation, 1, 3);
+        mainPage.add(settleCreation, 3, 3);
+        mainPage.add(charCatalogue, 1, 5);
+        mainPage.add(settleCatalogue, 3, 5);
+        mainPage.add(mainExit, 2, 6);
         
+        //exit app
         mainExit.setOnAction((event) -> {
             stop();
         });
@@ -131,12 +153,37 @@ public class UserInterface {
         
         GridPane createChar = new GridPane();
         
-        Button exitCharMake = new Button("exit");
+        Label enterCharNameLabel = new Label("Name:");
+        TextField enterCharName = new TextField();
+        Label errorText = new Label("");
+        Button confirmCreateChar = new Button("Save");
+        Button exitCharMake = new Button("Return");
         
-        createChar.add(exitCharMake, 1, 1);
+        createChar.add(enterCharNameLabel, 1, 1);
+        createChar.add(enterCharName, 2, 1);
+        createChar.add(errorText, 2, 2);
+        createChar.add(confirmCreateChar, 2, 3);
+        createChar.add(exitCharMake, 3, 4);
         
         Scene charaCreateScene = new Scene(createChar);
         
+        //save changes and create new character
+        confirmCreateChar.setOnAction((e) -> {
+            if (currentUser.addChara(enterCharName.getText()) && !enterCharName.getText().isEmpty()) {
+                enterCharName.setText("");
+                stage.setScene(mainPageScene);
+            } else {
+                errorText.setText("Taken or empty character name");
+            }
+            
+        });
+        
+        //return to main page
+        exitCharMake.setOnAction((e)-> {
+            stage.setScene(mainPageScene);
+        });
+        
+        //main page -> character creation page
         charCreation.setOnAction((e) -> {
             stage.setScene(charaCreateScene);
         });
@@ -145,7 +192,8 @@ public class UserInterface {
         loginButton.setOnAction((event) -> {
            User comparable = new User(nameField.getText(), passField.getText());
            if (users.contains(comparable)) {
-               welcomeText.setText(comparable.getName());
+               setCurrentUser(nameField.getText());
+               welcomeText.setText(currentUser.getName());
                stage.setScene(mainPageScene);
            } else {
                error.setText("Wrong username or password");
@@ -161,5 +209,14 @@ public class UserInterface {
     
     public void stop() {
         Platform.exit();
+    }
+    
+    public void setCurrentUser(String name) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getName().equals(name)) {
+                this.currentUser = users.get(i);
+            }
+        }
+        
     }
 }
