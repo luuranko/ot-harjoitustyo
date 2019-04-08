@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import maailmanluontisovellus.domain.Logic;
@@ -25,6 +26,8 @@ public class UserInterface {
     Logic logic;
     
     ArrayList<User> users;
+    
+    
     public UserInterface() {
         this.users = new ArrayList<>();
     }
@@ -37,6 +40,8 @@ public class UserInterface {
     
     public void start(Stage stage) {
         
+       
+        //LOGIN VIEW
         
         VBox login = new VBox();
         
@@ -45,14 +50,23 @@ public class UserInterface {
         Label enterPass = new Label("Enter password");
         TextField passField = new TextField();
         Button loginButton = new Button("login");
+        Label error = new Label("");
         Label guideNew = new Label("Or create new account:");
         Button goToCreateAccount = new Button("Create new account");
-        Button exit = new Button("Exit");
+        Button loginExit = new Button("Exit");
         
-        login.getChildren().addAll(enterName, nameField, enterPass, passField, loginButton, guideNew, goToCreateAccount, exit);
+        login.getChildren().addAll(enterName, nameField, enterPass, passField, loginButton, error, guideNew, goToCreateAccount, loginExit);
         login.setPadding(new Insets(10, 10, 10, 10));
         
+        loginExit.setOnAction((event) -> {
+            stop();
+        });
+        
+        
+        
         Scene loginScene = new Scene(login);
+        
+        //CREATE NEW ACCOUNT VIEW
         
         VBox createNew = new VBox();
         
@@ -61,48 +75,85 @@ public class UserInterface {
         Label enterNewPass = new Label("Enter the password");
         TextField newPassField = new TextField();
         Button createButton = new Button("create account");
-        Button exit2 = new Button("Exit");
+        Label creationError = new Label("");
+        Button createExit = new Button("Exit");
         
-        createNew.getChildren().addAll(enterNewName, newNameField, enterNewPass, newPassField, createButton, exit2);
+        createNew.getChildren().addAll(enterNewName, newNameField, enterNewPass, newPassField, createButton, creationError, createExit);
+        
+        createExit.setOnAction((event) -> {
+            stop();
+        });
+        
+        createButton.setOnAction((event) -> {
+            boolean okay = true;
+            for (int i =0; i < users.size(); i++){
+                if (users.get(i).getName().equals(newNameField.getText())){
+                    okay = false;
+                } 
+            }
+            if (newNameField.getText().isEmpty()) {
+                okay = false;
+            }
+            if (okay) {
+                creationError.setText("Pick another username");
+            } else {
+                User newUser = new User(newNameField.getText(), newPassField.getText());
+                users.add(newUser);
+                stage.setScene(loginScene);
+            }
+        });
         
         Scene createScene = new Scene(createNew);
-        
-        VBox mainPage = new VBox();
-        
-        Label welcomeText = new Label("Welcome");
-        Button exit3 = new Button("Exit");
-        
-        mainPage.getChildren().addAll(welcomeText, exit3);
-        
-        Scene mainPageScene = new Scene(mainPage);
         
         goToCreateAccount.setOnAction((event) -> {
             stage.setScene(createScene);
         });
         
-        createButton.setOnAction((event) -> {
-            User newUser = new User(newNameField.getText(), newPassField.getText());
-            users.add(newUser);
-            stage.setScene(loginScene);
+        //MAIN PAGE VIEW
+        
+        VBox mainPage = new VBox();
+        
+        Label welcomeText = new Label("Welcome");
+        Button charCreation = new Button("Create a new character");
+        Button mainExit = new Button("Exit");
+        
+        mainPage.getChildren().addAll(welcomeText, charCreation, mainExit);
+        
+        mainExit.setOnAction((event) -> {
+            stop();
         });
         
+        
+        
+        Scene mainPageScene = new Scene(mainPage);
+        
+        // CREATE NEW CHARACTER VIEW
+        
+        GridPane createChar = new GridPane();
+        
+        Button exitCharMake = new Button("exit");
+        
+        createChar.add(exitCharMake, 1, 1);
+        
+        Scene charaCreateScene = new Scene(createChar);
+        
+        charCreation.setOnAction((e) -> {
+            stage.setScene(charaCreateScene);
+        });
+        
+        //login -> main page
         loginButton.setOnAction((event) -> {
            User comparable = new User(nameField.getText(), passField.getText());
            if (users.contains(comparable)) {
-               welcomeText.setText("Welcome " + comparable.getName());
+               welcomeText.setText(comparable.getName());
                stage.setScene(mainPageScene);
+           } else {
+               error.setText("Wrong username or password");
            }
         });
         
-        exit.setOnAction((event) -> {
-            stop();
-        });
-        exit2.setOnAction((event) -> {
-            stop();
-        });
-        exit3.setOnAction((event) -> {
-            stop();
-        });
+        
+       
         
         stage.setScene(loginScene);
         stage.show();
