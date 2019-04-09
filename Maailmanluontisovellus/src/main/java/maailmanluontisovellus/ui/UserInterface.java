@@ -31,7 +31,7 @@ public class UserInterface {
     
     public UserInterface() {
         this.users = new ArrayList<>();
-        //here for faster testing purposes
+        //these are here for faster manual testing
         this.currentUser = new User("test", "test");
         this.users.add(currentUser);
     }

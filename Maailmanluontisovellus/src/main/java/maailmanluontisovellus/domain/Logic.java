@@ -10,5 +10,5 @@ package maailmanluontisovellus.domain;
  * @author halauri
  */
 public class Logic {
-    
+    //app will be modified later to separate ui and logic
 }

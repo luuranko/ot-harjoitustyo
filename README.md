@@ -5,3 +5,6 @@
 
 [Työaikakirjanpito](https://github.com/luuranko/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
 
+[Arkkitehtuurikuvaus](https://github.com/luuranko/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+
+
