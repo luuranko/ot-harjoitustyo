@@ -6,6 +6,7 @@
 package maailmanluontisovellus.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -13,16 +14,22 @@ import java.util.Objects;
  * @author halauri
  */
 public class User {
+    private int id;
     private String name;
     private String password;
     private ArrayList<Character> charas;
     private ArrayList<Settlement> settles;
+    private HashMap<String, Integer> charaIdFinder;
+    private HashMap<String, Integer> settleIdFinder;
     
-    public User(String name, String password) {
+    public User(String name, String password, int id) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.charas = new ArrayList<>();
         this.settles = new ArrayList<>();
+        this.charaIdFinder = new HashMap<>();
+        this.settleIdFinder = new HashMap<>();
     }
     
     public String getName() {
@@ -32,6 +39,10 @@ public class User {
     public String getPassword() {
         return password;
     }
+    
+    public int getId() {
+        return id;
+    }
 
     public ArrayList<Character> getCharas() {
         return charas;
@@ -40,23 +51,57 @@ public class User {
     public ArrayList<Settlement> getSettles() {
         return settles;
     }
+    
+    public HashMap<String, Integer> getCharaIdFinder() {
+        return charaIdFinder;
+    }
+    
+    public HashMap<String, Integer> getSettleIdFinder() {
+        return settleIdFinder;
+    }
 
     public boolean addChara(String name) {
-        if (this.charas.contains(new Character(name))) {
-            return false;
-        } else {
-            this.charas.add(new Character(name));
+        boolean okay = true;
+        for (int i =0; i < charas.size(); i++){
+            if (charas.get(i).getName().equals(name)) {
+                okay = false;
+            }
+        }
+        if (okay)  {
+            int id = charas.size();
+            this.charas.add(new Character(name, id));
+            this.charaIdFinder.put(name, id);
             return true;
+        } else {
+            return false;
         }
     }
     
     public boolean addSettle(String name) {
-        if (this.settles.contains(new Settlement(name))) {
-            return false;
-        } else {
-            this.settles.add(new Settlement(name));
-            return true;
+        boolean okay = true;
+        for (int i =0; i < settles.size(); i++){
+            if (settles.get(i).getName().equals(name)) {
+                okay = false;
+            }
         }
+        if (okay)  {
+            int id = settles.size();
+            this.settles.add(new Settlement(name, id));
+            this.settleIdFinder.put(name, id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public Character findChara(String name) {
+        int id = charaIdFinder.get(name);
+        return charas.get(id);
+    }
+    
+    public Settlement findSettle(String name) {
+        int id = settleIdFinder.get(name);
+        return settles.get(id);
     }
 
     @Override

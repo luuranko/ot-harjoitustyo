@@ -19,7 +19,7 @@ public class MaailmanluontiTests {
     
     @Before
     public void setUp() {
-        this.ui = new UserInterface();
+        //this.ui = new UserInterface();
     }
     
     @Test

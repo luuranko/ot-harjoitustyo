@@ -30,8 +30,8 @@ public class Main extends Application{
     
     @Override
     public void init() throws Exception {
-        ui = new UserInterface();
         logic = new Logic();
+        ui = new UserInterface(logic);
     }
     
     @Override
@@ -39,7 +39,6 @@ public class Main extends Application{
         stage.setHeight(500);
         stage.setWidth(500);
         stage.setTitle("Maailmanluonti");
-        ui.setLogic(logic);
         ui.start(stage);
         
         

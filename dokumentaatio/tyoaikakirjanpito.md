@@ -7,5 +7,7 @@ päivä | aika | mitä tein
 4.4 | 1 | kirjautumistoiminnon korjaamista
 8.4 | 2 | hahmonluontitoiminto
 9.4 | 5 | näkymien jäsentämistä ja kaupunkitoimintoja
+11.4 | 1 | checkstylen korjaaminen
+12.4 | 4 | logiikka eriytetty ui:sta, hahmosivun pohja
 
-yhteensä: 18
+yhteensä: 19

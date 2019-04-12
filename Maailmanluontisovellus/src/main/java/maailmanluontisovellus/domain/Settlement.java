@@ -12,6 +12,7 @@ import java.util.Objects;
  * @author halauri
  */
 public class Settlement {
+    private int id;
     private String name;
     private String descrip;
     private int population;
@@ -19,8 +20,17 @@ public class Settlement {
     private String culture;
     private String geography;
     
-    public Settlement(String name) {
+    public Settlement(String name, int id) {
         this.name = name;
+        this.id = id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getId() {
+        return id;
     }
 
     public String getName() {
