@@ -5,22 +5,15 @@
  */
 package maailmanluontisovellus.ui;
 
-import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import maailmanluontisovellus.domain.Logic;
-import maailmanluontisovellus.ui.UserInterface;
 
 /**
  *
  * @author halauri
  */
-public class Main extends Application{
+public class Main extends Application {
     UserInterface ui;
     Logic logic;
     
@@ -35,9 +28,9 @@ public class Main extends Application{
     }
     
     @Override
-    public void start(Stage stage){
-        stage.setHeight(500);
-        stage.setWidth(500);
+    public void start(Stage stage) {
+        stage.setHeight(400);
+        stage.setWidth(750);
         stage.setTitle("Maailmanluonti");
         ui.start(stage);
         

@@ -51,18 +51,10 @@ public class User {
     public ArrayList<Settlement> getSettles() {
         return settles;
     }
-    
-    public HashMap<String, Integer> getCharaIdFinder() {
-        return charaIdFinder;
-    }
-    
-    public HashMap<String, Integer> getSettleIdFinder() {
-        return settleIdFinder;
-    }
 
     public boolean addChara(String name) {
         boolean okay = true;
-        for (int i =0; i < charas.size(); i++){
+        for (int i = 0; i < charas.size(); i++) {
             if (charas.get(i).getName().equals(name)) {
                 okay = false;
             }
@@ -79,7 +71,7 @@ public class User {
     
     public boolean addSettle(String name) {
         boolean okay = true;
-        for (int i =0; i < settles.size(); i++){
+        for (int i = 0; i < settles.size(); i++) {
             if (settles.get(i).getName().equals(name)) {
                 okay = false;
             }
@@ -95,13 +87,31 @@ public class User {
     }
     
     public Character findChara(String name) {
+        if (!charaIdFinder.containsKey(name)) {
+            return null;
+        }
         int id = charaIdFinder.get(name);
         return charas.get(id);
     }
     
     public Settlement findSettle(String name) {
+        if (!settleIdFinder.containsKey(name)) {
+            return null;
+        }
         int id = settleIdFinder.get(name);
         return settles.get(id);
+    }
+    
+    public void replaceCharaName(String oldName, String newName) {
+        int i = charaIdFinder.get(oldName);
+        charaIdFinder.remove(oldName);
+        charaIdFinder.put(newName, i);
+    }
+    
+    public void replaceSettleName(String oldName, String newName) {
+        int i = settleIdFinder.get(oldName);
+        settleIdFinder.remove(oldName);
+        settleIdFinder.put(newName, i);
     }
 
     @Override

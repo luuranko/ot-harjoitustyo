@@ -17,9 +17,6 @@ public class Logic {
     
     public Logic() {
         this.userlist = new ArrayList<>();
-        //shortcut user account for faster manual testing
-        this.currentUser = new User("testi", "testi", 0);
-        this.userlist.add(currentUser);
     }
     
     public User currentUser() {
@@ -28,8 +25,8 @@ public class Logic {
     
     public boolean addNewUser(String name, String password) {
         boolean okay = true;
-        for (int i =0; i < userlist.size(); i++){
-            if (userlist.get(i).getName().equals(name)){
+        for (int i = 0; i < userlist.size(); i++) {
+            if (userlist.get(i).getName().equals(name)) {
                 okay = false;
             } 
         }
@@ -50,7 +47,7 @@ public class Logic {
     public boolean login(String name, String password) {
         boolean okay = false;
         int loginId = 0;
-        for (int i =0; i < userlist.size(); i++){
+        for (int i = 0; i < userlist.size(); i++) {
             if (userlist.get(i).getName().equals(name) && userlist.get(i).getPassword().equals(password)) {
                 okay = true;
                 loginId = userlist.get(i).getId();
@@ -84,6 +81,42 @@ public class Logic {
             boolean success = currentUser.addSettle(name);
             return success;
         }   
+    }
+    
+    public boolean modifyCharaName(String oldName, String newName) {
+        if (currentUser.findChara(newName) == null && currentUser.findChara(oldName) != null) {
+            currentUser.findChara(oldName).setName(newName);
+            currentUser.replaceCharaName(oldName, newName);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean modifySettleName(String oldName, String newName) {
+        if (currentUser.findSettle(newName) == null && currentUser.findSettle(oldName) != null) {
+            currentUser.findSettle(oldName).setName(newName);
+            currentUser.replaceSettleName(oldName, newName);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public void modifyChara(String characterName, String appearance, String personality, String goal, String ability, String weakness) {
+        currentUser.findChara(characterName).setAppearance(appearance);
+        currentUser.findChara(characterName).setPersonality(personality);
+        currentUser.findChara(characterName).setGoal(goal);
+        currentUser.findChara(characterName).setAbility(ability);
+        currentUser.findChara(characterName).setWeakness(weakness);
+    }
+    
+    public void modifySettle(String settleName, String description, String population, String government, String culture, String geography) {
+        currentUser.findSettle(settleName).setDescrip(description);
+        currentUser.findSettle(settleName).setPopulation(population);
+        currentUser.findSettle(settleName).setGovern(government);
+        currentUser.findSettle(settleName).setCulture(culture);
+        currentUser.findSettle(settleName).setGeography(geography);
     }
     
     

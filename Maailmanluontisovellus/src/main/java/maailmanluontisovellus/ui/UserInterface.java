@@ -5,14 +5,11 @@
  */
 package maailmanluontisovellus.ui;
 
-import javafx.application.Platform;
+import javafx.application.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import maailmanluontisovellus.domain.*;
 
@@ -28,6 +25,8 @@ public class UserInterface {
     }
     
     public void start(Stage stage) {
+        //shortcut for faster manual testing
+        logic.addNewUser("testi", "testi");
         //app starts from login view
         loginScene(stage);
     }
@@ -186,15 +185,38 @@ public class UserInterface {
         
         Label enterCharNameLabel = new Label("Name:");
         TextField enterCharName = new TextField();
+        Label appearLabel = new Label("Appearance: ");
+        TextField appearanceField = new TextField();
+        Label personLabel = new Label("Personality: ");
+        TextField personalityField = new TextField();
+        Label goalLabel = new Label("Goal: ");
+        TextField goalField = new TextField();
+        Label abilityLabel = new Label("Ability: ");
+        TextField abilityField = new TextField();
+        Label weaknessLabel = new Label("Weakness: ");
+        TextField weaknessField = new TextField();
         Label errorText = new Label("");
         Button confirmCreateChar = new Button("Save");
         Button exitCharMake = new Button("Return");
         
+        int x = 2;
+        int y = 7;
+        
         createChar.add(enterCharNameLabel, 1, 1);
         createChar.add(enterCharName, 2, 1);
-        createChar.add(errorText, 2, 2);
-        createChar.add(confirmCreateChar, 2, 3);
-        createChar.add(exitCharMake, 3, 4);
+        createChar.add(appearLabel, 1, 2);
+        createChar.add(appearanceField, 2, 2);
+        createChar.add(personLabel, 1, 3);
+        createChar.add(personalityField, 2, 3);
+        createChar.add(goalLabel, 1, 4);
+        createChar.add(goalField, 2, 4);
+        createChar.add(abilityLabel, 1, 5);
+        createChar.add(abilityField, 2, 5);
+        createChar.add(weaknessLabel, 1, 6);
+        createChar.add(weaknessField, 2, 6);
+        createChar.add(errorText, x, y);
+        createChar.add(confirmCreateChar, x, y+1);
+        createChar.add(exitCharMake, x+1, y+2);
         
         Scene charaCreateScene = new Scene(createChar);
         
@@ -207,7 +229,13 @@ public class UserInterface {
         //save changes and create new character
         confirmCreateChar.setOnAction((e) -> {
             String name = enterCharName.getText();
+            String appearance = appearanceField.getText();
+            String personality = personalityField.getText();
+            String goal = goalField.getText();
+            String ability = abilityField.getText();
+            String weakness = weaknessField.getText();
             if (logic.newChara(name)) {
+                logic.modifyChara(name, appearance, personality, goal, ability, weakness);
                 mainPage(stage);
             } else {
                 errorText.setText("Taken or empty character name");
@@ -226,15 +254,35 @@ public class UserInterface {
         
         Label enterSettleNameLabel = new Label("Name:");
         TextField enterSettleName = new TextField();
+        Label descripLabel = new Label("Description: ");
+        TextField descrip = new TextField();
+        Label populLabel = new Label("Population: ");
+        TextField popul = new TextField();
+        Label governLabel = new Label("Government: ");
+        TextField govern = new TextField();
+        Label cultureLabel = new Label("Culture: ");
+        TextField cultur = new TextField();
+        Label geoLabel = new Label("Geography: ");
+        TextField geo = new TextField();
         Label errorText = new Label("");
         Button confirmCreateSettle = new Button("Save");
         Button exitSettleMake = new Button("Return");
         
         createSettle.add(enterSettleNameLabel, 1, 1);
         createSettle.add(enterSettleName, 2, 1);
-        createSettle.add(errorText, 2, 2);
-        createSettle.add(confirmCreateSettle, 2, 3);
-        createSettle.add(exitSettleMake, 3, 4);
+        createSettle.add(descripLabel, 1, 2);
+        createSettle.add(descrip, 2, 2);
+        createSettle.add(populLabel, 1, 3);
+        createSettle.add(popul, 2, 3);
+        createSettle.add(governLabel, 1, 4);
+        createSettle.add(govern, 2, 4);
+        createSettle.add(cultureLabel, 1, 5);
+        createSettle.add(cultur, 2, 5);
+        createSettle.add(geoLabel, 1, 6);
+        createSettle.add(geo, 2, 6);
+        createSettle.add(errorText, 2, 7);
+        createSettle.add(confirmCreateSettle, 2, 8);
+        createSettle.add(exitSettleMake, 2, 9);
         
         Scene settleCreateScene = new Scene(createSettle);
         
@@ -247,7 +295,13 @@ public class UserInterface {
         //save changes and create new character
         confirmCreateSettle.setOnAction((e) -> {
             String name = enterSettleName.getText();
+            String description = descrip.getText();
+            String population = popul.getText();
+            String government = govern.getText();
+            String culture = cultur.getText();
+            String geography = geo.getText();
             if (logic.newSettle(name)) {
+                logic.modifySettle(name, description, population, government, culture, geography);
                 mainPage(stage);
             } else {
                 errorText.setText("Taken or empty character name");
@@ -270,6 +324,7 @@ public class UserInterface {
             String charName = logic.currentUser().getCharas().get(i).getName();
             Button chara = new Button(charName);
             charListBox.getChildren().add(chara);
+            
             //character catalogue page -> character's own page
             chara.setOnAction((e)-> {
                 characterPage(stage, charName);
@@ -300,7 +355,13 @@ public class UserInterface {
         VBox settleListBox = new VBox();
         for (int i = 0; i < logic.currentUser().getSettles().size(); i++) {
             String settleName = logic.currentUser().getSettles().get(i).getName();
-            settleListBox.getChildren().add(new Button(settleName));
+            Button settle = new Button(settleName);
+            settleListBox.getChildren().add(settle);
+            
+            //settlement catalogue page -> settlement's own page
+            settle.setOnAction((e)-> {
+               settlementPage(stage, settleName); 
+            });
         }
         Button returnFromSettCa = new Button("Return");
         
@@ -328,15 +389,38 @@ public class UserInterface {
         
         Label charNameLabel = new Label("Name: ");
         Label charName = new Label(chara.getName());
+        Label appearLabel = new Label("Appearance: ");
+        Label appear = new Label(chara.getAppearance());
+        Label personLabel = new Label("Personality: ");
+        Label person = new Label(chara.getPersonality());
+        Label goalLabel = new Label("Goal: ");
+        Label charaGoal = new Label(chara.getGoal());
+        Label abilityLabel = new Label("Ability: ");
+        Label charaAbility = new Label(chara.getAbility());
+        Label weaknessLabel = new Label("Weakness: ");
+        Label charaWeakness = new Label(chara.getWeakness());
         Label errorText = new Label("");
-        Label laabel = new Label("");
+        Label fillLabel = new Label("");
         Button exit = new Button("Return");
+        
+        int x = 2;
+        int y = 7;
         
         charaPage.add(charNameLabel, 1, 1);
         charaPage.add(charName, 2, 1);
-        charaPage.add(errorText, 2, 2);
-        charaPage.add(laabel, 2, 3);
-        charaPage.add(exit, 3, 4);
+        charaPage.add(appearLabel, 1, 2);
+        charaPage.add(appear, 2, 2);
+        charaPage.add(personLabel, 1, 3);
+        charaPage.add(person, 2, 3);
+        charaPage.add(goalLabel, 1, 4);
+        charaPage.add(charaGoal, 2, 4);
+        charaPage.add(abilityLabel, 1, 5);
+        charaPage.add(charaAbility, 2, 5);
+        charaPage.add(weaknessLabel, 1, 6);
+        charaPage.add(charaWeakness, 2, 6);
+        charaPage.add(errorText, x, y);
+        charaPage.add(fillLabel, x, y+1);
+        charaPage.add(exit, x, y+2);
         
         Scene charaPageScene = new Scene(charaPage);
         
@@ -347,6 +431,55 @@ public class UserInterface {
         
         
         stage.setScene(charaPageScene);
+        stage.show();
+    }
+    
+    public void settlementPage(Stage stage, String name) {
+        GridPane settlePage = new GridPane();
+        
+        Settlement settle = logic.currentUser().findSettle(name);
+        
+        Label settleNameLabel = new Label("Name: ");
+        Label settleName = new Label(settle.getName());
+        Label descripLabel = new Label("Description: ");
+        Label descrip = new Label(settle.getDescrip());
+        Label populLabel = new Label("Population: ");
+        Label popul = new Label(settle.getPopulation());
+        Label governLabel = new Label("Government: ");
+        Label govern = new Label(settle.getGovern());
+        Label cultureLabel = new Label("Culture: ");
+        Label cultur = new Label(settle.getCulture());
+        Label geoLabel = new Label("Geography: ");
+        Label geo = new Label(settle.getGeography());
+        Label errorText = new Label("");
+        Label fillLabel = new Label("");
+        Button exit = new Button("Return");
+        
+        settlePage.add(settleNameLabel, 1, 1);
+        settlePage.add(settleName, 2, 1);
+        settlePage.add(descripLabel, 1, 2);
+        settlePage.add(descrip, 2, 2);
+        settlePage.add(populLabel, 1, 3);
+        settlePage.add(popul, 2, 3);
+        settlePage.add(governLabel, 1, 4);
+        settlePage.add(govern, 2, 4);
+        settlePage.add(cultureLabel, 1, 5);
+        settlePage.add(cultur, 2, 5);
+        settlePage.add(geoLabel, 1, 6);
+        settlePage.add(geo, 2, 6);
+        settlePage.add(errorText, 2, 7);
+        settlePage.add(fillLabel, 2, 8);
+        settlePage.add(exit, 2, 9);
+        
+        Scene settlePageScene = new Scene(settlePage);
+        
+        //return to character catalogue
+        exit.setOnAction((e)-> {
+            settleCatalogueScene(stage);
+        });
+        
+        
+        stage.setScene(settlePageScene);
         stage.show();
     }
     

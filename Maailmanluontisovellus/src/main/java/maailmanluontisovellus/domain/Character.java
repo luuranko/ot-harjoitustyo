@@ -83,18 +83,6 @@ public class Character {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.name);
-        hash = 79 * hash + Objects.hashCode(this.appearance);
-        hash = 79 * hash + Objects.hashCode(this.personality);
-        hash = 79 * hash + Objects.hashCode(this.goal);
-        hash = 79 * hash + Objects.hashCode(this.ability);
-        hash = 79 * hash + Objects.hashCode(this.weakness);
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

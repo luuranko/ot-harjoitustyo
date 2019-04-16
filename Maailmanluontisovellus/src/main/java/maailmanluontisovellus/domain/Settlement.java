@@ -15,7 +15,7 @@ public class Settlement {
     private int id;
     private String name;
     private String descrip;
-    private int population;
+    private String population;
     private String govern;
     private String culture;
     private String geography;
@@ -49,11 +49,11 @@ public class Settlement {
         this.descrip = descrip;
     }
 
-    public int getPopulation() {
+    public String getPopulation() {
         return population;
     }
 
-    public void setPopulation(int population) {
+    public void setPopulation(String population) {
         this.population = population;
     }
 
@@ -79,18 +79,6 @@ public class Settlement {
 
     public void setGeography(String geography) {
         this.geography = geography;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.name);
-        hash = 37 * hash + Objects.hashCode(this.descrip);
-        hash = 37 * hash + this.population;
-        hash = 37 * hash + Objects.hashCode(this.govern);
-        hash = 37 * hash + Objects.hashCode(this.culture);
-        hash = 37 * hash + Objects.hashCode(this.geography);
-        return hash;
     }
 
     @Override
