@@ -11,5 +11,6 @@ päivä | aika | mitä tein
 12.4. | 4 | logiikka eriytetty ui:sta, hahmosivun pohja
 13.4. | 2 | kaupunkisivu
 15.4. | 5 | testien tekemistä, tyylin korjausta, pomin säätäminen
+16.4. | 3 | lisää hahmojen ja kaupunkien piirteitä
 
-yhteensä: 30
+yhteensä: 33

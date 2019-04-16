@@ -1,5 +1,6 @@
 # Ohjelmistotekniikka
 ## Maailmanluontisovellus
+Maailmanluontisovelluksen avulla käyttäjä voi pitää kirjaa luomansa maailman hahmoista ja asutuksista. Jokaisella rekisteröityneellä käyttäjällä on oma itse luomansa valikoima hahmoja ja asutuksia, joita voi muokata tai luoda lisää.
 ### Dokumentaatio
 [Vaatimusmäärittely](https://github.com/luuranko/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
@@ -7,4 +8,13 @@
 
 [Arkkitehtuurikuvaus](https://github.com/luuranko/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
+## Release
 
+[Viikko 5](https://github.com/luuranko/ot-harjoitustyo/releases/tag/viikko5)
+
+## Komentorivitoiminnot
+
+Testien suoritus: "mvn test"
+Testikattavuusraportin luominen: "mvn jacoco:report"
+Suoritettavan jarin generointi: "mvn package"
+Checkstyle-raportin luominen: "mvn jxr:jxr checkstyle:checkstyle"
