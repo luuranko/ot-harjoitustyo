@@ -11,6 +11,7 @@ Maailmanluontisovelluksen avulla käyttäjä voi pitää kirjaa luomansa maailma
 ## Releaset
 
 [Viikko 6](https://github.com/luuranko/ot-harjoitustyo/releases/tag/viikko6)
+
 [Viikko 5](https://github.com/luuranko/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Komentorivitoiminnot
