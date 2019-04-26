@@ -12,5 +12,6 @@ päivä | aika | mitä tein
 13.4. | 2 | kaupunkisivu
 15.4. | 5 | testien tekemistä, tyylin korjausta, pomin säätäminen
 16.4. | 3 | lisää hahmojen ja kaupunkien piirteitä
+26.4 | 5 | muokkaustoiminto, testejä, värejä
 
-yhteensä: 33
+yhteensä: 38

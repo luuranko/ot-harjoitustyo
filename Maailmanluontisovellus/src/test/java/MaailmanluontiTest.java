@@ -588,4 +588,158 @@ public class MaailmanluontiTest {
         }
         assertTrue(correct);
     }
+    
+    @Test
+    public void replaceCharaName1() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addChara("Link");
+        logic.currentUser().findChara("Link").setAppearance("small");
+        logic.currentUser().replaceCharaName("Link", "Lonk");
+        if (logic.currentUser().findChara("Lonk").getAppearance().equals("small") == false) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+     @Test
+    public void replaceSettleName1() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addSettle("Castle Town");
+        logic.currentUser().findSettle("Castle Town").setDescrip("bustling");
+        logic.currentUser().replaceSettleName("Castle Town", "Ruins");
+        if (logic.currentUser().findSettle("Ruins").getDescrip().equals("bustling") == false) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+    @Test
+    public void findChara1() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addChara("Link");
+        if (logic.currentUser().findChara("Link").equals(new maailmanluontisovellus.domain.Character("Link", 1)) == false) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+    @Test
+    public void findChara2() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        if (logic.currentUser().findChara("Link") == null == false) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+    @Test
+    public void findSettle1() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addSettle("Castle Town");
+        if (logic.currentUser().findSettle("Castle Town").equals(new Settlement("Castle Town", 1)) == false) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+    @Test
+    public void findSettle2() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        if (logic.currentUser().findSettle("Castle Town") == null == false) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+    @Test
+    public void modifyCharaName1() {
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addChara("Link");
+        assertTrue(logic.modifyCharaName("Link", "Link"));
+    }
+    
+    @Test
+    public void modifyCharaName2() {
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addChara("Link");
+        assertTrue(logic.modifyCharaName("Link", "Lonk"));
+    }
+    
+    @Test
+    public void modifyCharaName3() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        if (logic.modifyCharaName("x", "y")) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+    @Test
+    public void modifySettleName1() {
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addSettle("Castle Town");
+        assertTrue(logic.modifySettleName("Castle Town", "Castle Town"));
+    }
+    
+    @Test
+    public void modifySettleName2() {
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addSettle("Castle Town");
+        assertTrue(logic.modifySettleName("Castle Town", "Ruins"));
+    }
+    
+    @Test
+    public void modifySettleName3() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        if (logic.modifySettleName("x", "y")) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+    @Test
+    public void modifyChara1() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addChara("Link");
+        logic.modifyChara("Link", "small", "quiet", "victory", "courage", "sleepy");
+        if (logic.currentUser().findChara("Link").getName().equals("Link") == false || logic.currentUser().findChara("Link").getAbility().equals("courage") == false || logic.currentUser().findChara("Link").getAppearance().equals("small") == false || logic.currentUser().findChara("Link").getGoal().equals("victory") == false || logic.currentUser().findChara("Link").getPersonality().equals("quiet") == false || logic.currentUser().findChara("Link").getWeakness().equals("sleepy") == false) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+    
+    @Test
+    public void modifySettle1() {
+        boolean correct = true;
+        logic.addNewUser("a", "b");
+        logic.login("a", "b");
+        logic.currentUser().addSettle("Town");
+        logic.modifySettle("Town", "d", "p", "g", "c", "geo");
+        if (logic.currentUser().findSettle("Town").getCulture().equals("c") == false || logic.currentUser().findSettle("Town").getDescrip().equals("d") == false || logic.currentUser().findSettle("Town").getGeography().equals("geo") == false || logic.currentUser().findSettle("Town").getGovern().equals("g") == false || logic.currentUser().findSettle("Town").getName().equals("Town") == false || logic.currentUser().findSettle("Town").getPopulation().equals("p") == false) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
 }

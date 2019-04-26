@@ -51,7 +51,13 @@ public class User {
     public ArrayList<Settlement> getSettles() {
         return settles;
     }
-
+    
+    /**
+     * Adds a new character to the user's character list
+     * if there is no other character by that name yet.
+     * @param name  The name of the character submitted by the user
+     * @return Returns the boolean on if character creation was successful
+     */
     public boolean addChara(String name) {
         boolean okay = true;
         for (int i = 0; i < charas.size(); i++) {
@@ -69,6 +75,12 @@ public class User {
         }
     }
     
+    /**
+     * Adds a new settlement to the user's settlement list
+     * if there is no other settlement by that name yet.
+     * @param name  The name of the settlement submitted by the user
+     * @return Returns the boolean on if settlement creation was successful
+     */
     public boolean addSettle(String name) {
         boolean okay = true;
         for (int i = 0; i < settles.size(); i++) {
@@ -86,6 +98,11 @@ public class User {
         }
     }
     
+    /**
+     * Returns the Character with the same name as in the parameter
+     * @param name  The name of the character
+     * @return Character
+     */
     public Character findChara(String name) {
         if (!charaIdFinder.containsKey(name)) {
             return null;
@@ -94,6 +111,11 @@ public class User {
         return charas.get(id);
     }
     
+    /**
+     * Returns the Settlement with the same name as in the parameter
+     * @param name  The name of the settlement
+     * @return Settlement
+     */
     public Settlement findSettle(String name) {
         if (!settleIdFinder.containsKey(name)) {
             return null;
@@ -102,12 +124,24 @@ public class User {
         return settles.get(id);
     }
     
+    /**
+     * Updates the character's name change in the finder
+     * that is used for finding Characters by name.
+     * @param oldName   The previous name of the character
+     * @param newName   The new name for the character
+     */
     public void replaceCharaName(String oldName, String newName) {
         int i = charaIdFinder.get(oldName);
         charaIdFinder.remove(oldName);
         charaIdFinder.put(newName, i);
     }
     
+    /**
+     * Updates the settlement's name change in the finder
+     * that is used for finding Settlements by name.
+     * @param oldName   The settlement's previous name
+     * @param newName   The new name for the settlement
+     */
     public void replaceSettleName(String oldName, String newName) {
         int i = settleIdFinder.get(oldName);
         settleIdFinder.remove(oldName);
