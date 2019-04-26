@@ -8,13 +8,17 @@ Maailmanluontisovelluksen avulla käyttäjä voi pitää kirjaa luomansa maailma
 
 [Arkkitehtuurikuvaus](https://github.com/luuranko/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
-## Release
+## Releaset
 
+[Viikko 6](https://github.com/luuranko/ot-harjoitustyo/releases/tag/viikko6)
 [Viikko 5](https://github.com/luuranko/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Komentorivitoiminnot
 
 Testien suoritus: "mvn test"
+
 Testikattavuusraportin luominen: "mvn jacoco:report"
+
 Suoritettavan jarin generointi: "mvn package"
+
 Checkstyle-raportin luominen: "mvn jxr:jxr checkstyle:checkstyle"
