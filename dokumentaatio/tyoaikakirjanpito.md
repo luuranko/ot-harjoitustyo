@@ -17,6 +17,6 @@ päivä | aika | mitä tein
 1.5 | 2 | tiedostonlukeminen ja -kirjoittaminen jatkoa
 3.5 | 7 | tiedostoasioiden jatkoa ja satunnaisgeneraattoritoiminto
 4.5 | 7 | tiedostotoiminnot loppuun ja koodin siistiminen
-5.5 | 7 | testaus ja koodin siistiminen
+5.5 | 10 | testaus, koodin siistiminen ja dokumentaatio
 
-yhteensä: 67
+yhteensä: 70
