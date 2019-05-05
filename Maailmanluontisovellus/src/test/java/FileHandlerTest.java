@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import maailmanluontisovellus.domain.FileHandler;
@@ -10,8 +12,11 @@ public class FileHandlerTest {
     FileHandler handler;
     
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         this.handler = new FileHandler("a", "b", "c");
+        FileWriter writer = new FileWriter(new File("a"));
+        FileWriter writer2 = new FileWriter(new File("b"));
+        FileWriter writer3 = new FileWriter(new File("c"));
     }
     
     @Test

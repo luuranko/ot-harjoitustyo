@@ -64,8 +64,8 @@ public class UserInterface {
         Button loginButton = new Button("Login");
         loginButton.setStyle("-fx-background-color: #FFFFFF;");
         Label error = new Label("");
-        Label guideNew = new Label("Or create new account:");
-        Button goToCreateAccount = new Button("Create new account");
+        Label guideNew = new Label("Or create a new account:");
+        Button goToCreateAccount = new Button("Create a new account");
         goToCreateAccount.setStyle("-fx-background-color: #FFFFFF;");
         Button loginExit = new Button("Exit");
         loginExit.setStyle("-fx-background-color: #FFFFFF;");
@@ -125,9 +125,9 @@ public class UserInterface {
         VBox createNew = new VBox();
         
         Label guide = new Label("");
-        Label enterNewName = new Label("Enter your username");
+        Label enterNewName = new Label("Enter username");
         TextField newNameField = new TextField();
-        Label enterNewPass = new Label("Enter the password");
+        Label enterNewPass = new Label("Enter password");
         TextField newPassField = new TextField();
         Button createButton = new Button("create account");
         createButton.setStyle("-fx-background-color: #FFFFFF;");
