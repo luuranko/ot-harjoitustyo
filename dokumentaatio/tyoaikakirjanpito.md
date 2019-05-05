@@ -13,5 +13,10 @@ päivä | aika | mitä tein
 15.4. | 5 | testien tekemistä, tyylin korjausta, pomin säätäminen
 16.4. | 3 | lisää hahmojen ja kaupunkien piirteitä
 26.4 | 5 | muokkaustoiminto, testejä, värejä
+30.4 | 6 | tiedostonlukemistoiminnon aloitus
+1.5 | 2 | tiedostonlukeminen ja -kirjoittaminen jatkoa
+3.5 | 7 | tiedostoasioiden jatkoa ja satunnaisgeneraattoritoiminto
+4.5 | 7 | tiedostotoiminnot loppuun ja koodin siistiminen
+5.5 | 7 | testaus ja koodin siistiminen
 
-yhteensä: 38
+yhteensä: 67

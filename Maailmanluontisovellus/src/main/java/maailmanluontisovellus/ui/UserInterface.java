@@ -1,6 +1,10 @@
 
 package maailmanluontisovellus.ui;
 
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.application.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -13,25 +17,35 @@ import maailmanluontisovellus.domain.*;
 
 public class UserInterface {
     private Logic logic;
+    private FileLogic flogic;
 
-    public UserInterface(Logic logic) {
+    public UserInterface(Logic logic, FileLogic flogic) {
         this.logic = logic;
-    }
-    
-    public void start(Stage stage) {
-        //shortcut for faster manual testing
-        //logic.addNewUser("testi", "testi");
+        this.flogic = flogic;
         
-        //app starts from login view
+    }
+    /**
+     * Starts the application's functions
+     * by reading the files and moving data to Logic in FileLogic
+     * and shows the login page.
+     * @param stage The stage used by the app
+     * @throws Exception 
+     */
+    public void start(Stage stage) throws Exception {
+        flogic.start();
         loginScene(stage);
     }
     
-    //closes the app
-    public void stop() {
+    /**
+     * Ends the app successfully
+     * by saving the Logic's data to the files in FileLogic
+     * and closes the window.
+     * @throws Exception 
+     */
+    public void stop() throws Exception {
+        flogic.stop();
         Platform.exit();
     }
-    
-    // SCENE GENERATION METHODS
     
     /**
      * LOGIN SCENE: 
@@ -74,7 +88,11 @@ public class UserInterface {
         
         //exit app
         loginExit.setOnAction((event) -> {
-            stop();
+            try {
+                stop();
+            } catch (Exception ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         //login -> main page
@@ -106,6 +124,7 @@ public class UserInterface {
     public void createAccount(Stage stage) {
         VBox createNew = new VBox();
         
+        Label guide = new Label("");
         Label enterNewName = new Label("Enter your username");
         TextField newNameField = new TextField();
         Label enterNewPass = new Label("Enter the password");
@@ -116,7 +135,7 @@ public class UserInterface {
         Button createReturn = new Button("Exit");
         createReturn.setStyle("-fx-background-color: #FFFFFF;");
         
-        createNew.getChildren().addAll(enterNewName, newNameField, enterNewPass, newPassField, createButton, creationError, createReturn);
+        createNew.getChildren().addAll(guide, enterNewName, newNameField, enterNewPass, newPassField, createButton, creationError, createReturn);
         createNew.setPadding(new Insets(20, 20, 20, 20));
         createNew.setStyle("-fx-background-color: #FFCFAF;");
         
@@ -131,10 +150,14 @@ public class UserInterface {
         createButton.setOnAction((event) -> {
             String name = newNameField.getText();
             String password = newPassField.getText();
-            if (logic.addNewUser(name, password)) {
-                loginScene(stage);
-            } else {
-                creationError.setText("A field left empty or a taken username");
+            try {
+                if (logic.addNewUser(name, password)) {
+                    loginScene(stage);
+                } else {
+                    creationError.setText("Taken or forbidden username");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         
@@ -215,6 +238,7 @@ public class UserInterface {
         
         GridPane createChar = new GridPane();
         
+        Label guide = new Label("                         ");
         Label enterCharNameLabel = new Label("Name:");
         TextField enterCharName = new TextField();
         Label appearLabel = new Label("Appearance: ");
@@ -227,30 +251,49 @@ public class UserInterface {
         TextField abilityField = new TextField();
         Label weaknessLabel = new Label("Weakness: ");
         TextField weaknessField = new TextField();
+        
         Label errorText = new Label("");
         Button confirm = new Button("Save");
         confirm.setStyle("-fx-background-color: #FFFFFF;");
         Button exit = new Button("Return");
         exit.setStyle("-fx-background-color: #FFFFFF;");
         
-        int x = 2;
-        int y = 7;
+        Button genAppear = new Button("Random");
+        genAppear.setStyle("-fx-background-color: #FFFFFF;");
+        Button genPerson = new Button("Random");
+        genPerson.setStyle("-fx-background-color: #FFFFFF;");
+        Button genGoal = new Button("Random");
+        genGoal.setStyle("-fx-background-color: #FFFFFF;");
+        Button genAbility = new Button("Random");
+        genAbility.setStyle("-fx-background-color: #FFFFFF;");
+        Button genWeak = new Button("Random");
+        genWeak.setStyle("-fx-background-color: #FFFFFF;");
         
-        createChar.add(enterCharNameLabel, 1, 1);
-        createChar.add(enterCharName, 2, 1);
-        createChar.add(appearLabel, 1, 2);
-        createChar.add(appearanceField, 2, 2);
-        createChar.add(personLabel, 1, 3);
-        createChar.add(personalityField, 2, 3);
-        createChar.add(goalLabel, 1, 4);
-        createChar.add(goalField, 2, 4);
-        createChar.add(abilityLabel, 1, 5);
-        createChar.add(abilityField, 2, 5);
-        createChar.add(weaknessLabel, 1, 6);
-        createChar.add(weaknessField, 2, 6);
-        createChar.add(errorText, x, y);
-        createChar.add(confirm, x, y+1);
-        createChar.add(exit, x+1, y+2);
+        int x = 2;
+        int y = 1;
+        
+        createChar.add(guide, x, y);
+        createChar.add(enterCharNameLabel, 1, y+1);
+        createChar.add(enterCharName, 2, y+1);
+        createChar.add(appearLabel, 1, y+2);
+        createChar.add(appearanceField, 2, y+2);
+        createChar.add(genAppear, 3, y+2);
+        createChar.add(personLabel, 1, y+3);
+        createChar.add(personalityField, 2, y+3);
+        createChar.add(genPerson, 3, y+3);
+        createChar.add(goalLabel, 1, y+4);
+        createChar.add(goalField, 2, y+4);
+        createChar.add(genGoal, 3, y+4);
+        createChar.add(abilityLabel, 1, y+5);
+        createChar.add(abilityField, 2, y+5);
+        createChar.add(genAbility, 3, y+5);
+        createChar.add(weaknessLabel, 1, y+6);
+        createChar.add(weaknessField, 2, y+6);
+        createChar.add(genWeak, 3, y+6);
+        
+        createChar.add(errorText, x, y+7);
+        createChar.add(confirm, x, y+8);
+        createChar.add(exit, x+1, y+9);
         
         createChar.setPadding(new Insets(20, 20, 20, 20));
         createChar.setStyle("-fx-background-color: #FFCFAF;");
@@ -271,13 +314,41 @@ public class UserInterface {
             String goal = goalField.getText();
             String ability = abilityField.getText();
             String weakness = weaknessField.getText();
-            if (logic.newChara(name)) {
-                logic.modifyChara(name, appearance, personality, goal, ability, weakness);
+            
+            maailmanluontisovellus.domain.Character chara = logic.newChara(name);
+            if (chara != null) {
+                logic.modifyChara(chara, appearance, personality, goal, ability, weakness);
                 mainPage(stage);
             } else {
                 errorText.setText("Taken or empty character name");
             }
             
+            
+        });
+        
+        //generate random appearance
+        genAppear.setOnAction((e)-> {
+            appearanceField.setText(logic.getRangen().appearance());
+        });
+        
+        //generate random personality
+        genPerson.setOnAction((e)-> {
+            personalityField.setText(logic.getRangen().personality());
+        });
+        
+        //generate random goal
+        genGoal.setOnAction((e)-> {
+            goalField.setText(logic.getRangen().goal());
+        });
+        
+        //generate random abilities
+        genAbility.setOnAction((e)-> {
+            abilityField.setText(logic.getRangen().ability());
+        });
+        
+        //generate random weakness
+        genWeak.setOnAction((e)-> {
+            weaknessField.setText(logic.getRangen().weakness());
         });
         
         stage.setScene(charaCreateScene);
@@ -305,24 +376,41 @@ public class UserInterface {
         TextField cultur = new TextField();
         Label geoLabel = new Label("Geography: ");
         TextField geo = new TextField();
+        
         Label errorText = new Label("");
         Button confirm = new Button("Save");
         confirm.setStyle("-fx-background-color: #FFFFFF;");
         Button exit = new Button("Return");
         exit.setStyle("-fx-background-color: #FFFFFF;");
         
+        Button genDescrip = new Button("Random");
+        genDescrip.setStyle("-fx-background-color: #FFFFFF;");
+        Button genPopul = new Button("Random");
+        genPopul.setStyle("-fx-background-color: #FFFFFF;");
+        Button genGovern = new Button("Random");
+        genGovern.setStyle("-fx-background-color: #FFFFFF;");
+        Button genCulture = new Button("Random");
+        genCulture.setStyle("-fx-background-color: #FFFFFF;");
+        Button genGeo = new Button("Random");
+        genGeo.setStyle("-fx-background-color: #FFFFFF;");
+        
         createSettle.add(enterSettleNameLabel, 1, 1);
         createSettle.add(enterSettleName, 2, 1);
         createSettle.add(descripLabel, 1, 2);
         createSettle.add(descrip, 2, 2);
+        createSettle.add(genDescrip, 3, 2);
         createSettle.add(populLabel, 1, 3);
         createSettle.add(popul, 2, 3);
+        createSettle.add(genPopul, 3, 3);
         createSettle.add(governLabel, 1, 4);
         createSettle.add(govern, 2, 4);
+        createSettle.add(genGovern, 3, 4);
         createSettle.add(cultureLabel, 1, 5);
         createSettle.add(cultur, 2, 5);
+        createSettle.add(genCulture, 3, 5);
         createSettle.add(geoLabel, 1, 6);
         createSettle.add(geo, 2, 6);
+        createSettle.add(genGeo, 3, 6);
         createSettle.add(errorText, 2, 7);
         createSettle.add(confirm, 2, 8);
         createSettle.add(exit, 2, 9);
@@ -346,13 +434,40 @@ public class UserInterface {
             String government = govern.getText();
             String culture = cultur.getText();
             String geography = geo.getText();
-            if (logic.newSettle(name)) {
-                logic.modifySettle(name, description, population, government, culture, geography);
+            Settlement settle = logic.newSettle(name);
+            if (settle != null) {
+                logic.modifySettle(settle, description, population, government, culture, geography);
                 mainPage(stage);
             } else {
                 errorText.setText("Taken or empty character name");
             }
+
             
+        });
+        
+        //generate random description
+        genDescrip.setOnAction((e)-> {
+            descrip.setText(logic.getRangen().description());
+        });
+        
+        //generate random population description
+        genPopul.setOnAction((e)-> {
+            popul.setText(logic.getRangen().population());
+        });
+        
+        //generate random leader
+        genGovern.setOnAction((e)-> {
+            govern.setText(logic.getRangen().government());
+        });
+        
+        //generate random culture description
+        genCulture.setOnAction((e)-> {
+            cultur.setText(logic.getRangen().culture());
+        });
+        
+        //generate random geographical description
+        genGeo.setOnAction((e)-> {
+            geo.setText(logic.getRangen().geography());
         });
         
         stage.setScene(settleCreateScene);
@@ -368,31 +483,51 @@ public class UserInterface {
      */
     public void charaCatalogueScene(Stage stage) {
         
-        GridPane charCatalogueView = new GridPane();
-        Label charCatalogueTitle = new Label(logic.currentUser().getName() + "'s characters");
-        VBox charListBox = new VBox();
-        for (int i = 0; i < logic.currentUser().getCharas().size(); i++) {
-            String charName = logic.currentUser().getCharas().get(i).getName();
+        GridPane pane = new GridPane();
+        
+        Label title = new Label(logic.currentUser().getName() + "'s characters");
+        VBox box = new VBox();
+        ArrayList<maailmanluontisovellus.domain.Character> list = logic.currentUser().getCharas().stream().sorted().collect(Collectors.toCollection(ArrayList::new));
+        for (int i = 0; i < list.size(); i++) {
+            maailmanluontisovellus.domain.Character character = list.get(i);
+            String charName = character.getName();
             Button chara = new Button(charName);
             chara.setStyle("-fx-background-color: #FFFFFF;");
-            charListBox.getChildren().add(chara);
+            box.getChildren().add(chara);
             
             //character catalogue page -> character's own page
             chara.setOnAction((e)-> {
-                characterPage(stage, charName);
+                characterPage(stage, character);
             });
         }
+        box.setPadding(new Insets(10, 10, 10, 10));
+        ScrollPane scroll = new ScrollPane(box);
+        scroll.setStyle("-fx-padding: 10;-fx-background: white;-fx-border-color: transparent;");
+        scroll.setMaxWidth(400);
         Button exit = new Button("Return");
         exit.setStyle("-fx-background-color: #FFFFFF;");
+        Label lbl = new Label("");
         
-        charCatalogueView.add(charCatalogueTitle, 1, 1);
-        charCatalogueView.add(charListBox, 2, 2);
-        charCatalogueView.add(exit, 1, 4);
+        pane.setHgap(8);
+        pane.setVgap(8);
         
-        charCatalogueView.setPadding(new Insets(20, 20, 20, 20));
-        charCatalogueView.setStyle("-fx-background-color: #FFCFAF;");
+        ColumnConstraints cons1 = new ColumnConstraints();
+        cons1.setHgrow(Priority.NEVER);
+        pane.getColumnConstraints().add(cons1);
+
+        ColumnConstraints cons2 = new ColumnConstraints();
+        cons2.setHgrow(Priority.ALWAYS);
+
+        pane.getColumnConstraints().addAll(cons1, cons2);
         
-        Scene charaCatalogueScene = new Scene(charCatalogueView);
+        pane.add(title, 2, 2);
+        pane.add(scroll, 2, 3, 30, 3);
+        pane.add(exit, 2, 6);
+        pane.add(lbl, 2, 7);
+        
+        pane.setStyle("-fx-background-color: #FFCFAF;");
+        
+        Scene charaCatalogueScene = new Scene(pane);
         
         //character catalogue page -> main page
         exit.setOnAction((e)-> {
@@ -411,31 +546,51 @@ public class UserInterface {
      */
     public void settleCatalogueScene(Stage stage) {
         
-        GridPane settleCatalogueView = new GridPane();
-        Label settleCatalogueTitle = new Label(logic.currentUser().getName() + "'s settlements");
-        VBox settleListBox = new VBox();
-        for (int i = 0; i < logic.currentUser().getSettles().size(); i++) {
-            String settleName = logic.currentUser().getSettles().get(i).getName();
+        GridPane pane = new GridPane();
+        Label title = new Label(logic.currentUser().getName() + "'s settlements");
+        VBox box = new VBox();
+        ArrayList<Settlement> list = logic.currentUser().getSettles().stream().sorted().collect(Collectors.toCollection(ArrayList::new));
+        for (int i = 0; i < list.size(); i++) {
+            Settlement settlement = list.get(i);
+            String settleName = settlement.getName();
             Button settle = new Button(settleName);
             settle.setStyle("-fx-background-color: #FFFFFF;");
-            settleListBox.getChildren().add(settle);
+            box.getChildren().add(settle);
             
             //settlement catalogue page -> settlement's own page
             settle.setOnAction((e)-> {
-               settlementPage(stage, settleName); 
+               settlementPage(stage, settlement); 
             });
         }
+        box.setPadding(new Insets(10, 10, 10, 10));
+        ScrollPane scroll = new ScrollPane(box);
+        scroll.setStyle("-fx-padding: 10;-fx-background: white;-fx-border-color: transparent;");
+        scroll.setMaxWidth(400);
         Button exit = new Button("Return");
         exit.setStyle("-fx-background-color: #FFFFFF;");
+        Label lbl = new Label("");
         
-        settleCatalogueView.add(settleCatalogueTitle, 1, 1);
-        settleCatalogueView.add(settleListBox, 2, 2);
-        settleCatalogueView.add(exit, 1, 4);
+        pane.setHgap(8);
+        pane.setVgap(8);
         
-        settleCatalogueView.setPadding(new Insets(20, 20, 20, 20));
-        settleCatalogueView.setStyle("-fx-background-color: #FFCFAF;");
+        ColumnConstraints cons1 = new ColumnConstraints();
+        cons1.setHgrow(Priority.NEVER);
+        pane.getColumnConstraints().add(cons1);
+
+        ColumnConstraints cons2 = new ColumnConstraints();
+        cons2.setHgrow(Priority.ALWAYS);
+
+        pane.getColumnConstraints().addAll(cons1, cons2);
         
-        Scene settleCatalogueScene = new Scene(settleCatalogueView);
+        pane.add(title, 2, 2);
+        pane.add(scroll, 2, 3, 30, 3);
+        pane.add(exit, 2, 6);
+        pane.add(lbl, 2, 7);
+        
+        pane.setPadding(new Insets(20, 20, 20, 20));
+        pane.setStyle("-fx-background-color: #FFCFAF;");
+        
+        Scene settleCatalogueScene = new Scene(pane);
         
         //settlement catalogue page -> main page
         exit.setOnAction((e)-> {
@@ -452,24 +607,24 @@ public class UserInterface {
      * where the chosen character's info is shown
      * and where the user can access the modifying page for that character.
      * @param stage The stage used by the app
-     * @param name The name of the character shown
+     * @param chara The Character
      */
-    public void characterPage(Stage stage, String name) {
+    public void characterPage(Stage stage, maailmanluontisovellus.domain.Character chara) {
         GridPane charaPage = new GridPane();
         
-        maailmanluontisovellus.domain.Character chara = logic.currentUser().findChara(name);
+        //maailmanluontisovellus.domain.Character chara = logic.currentUser().findChara(name);
         
-        Label charNameLabel = new Label("Name: ");
+        Label charNameLabel = new Label("Name:   ");
         Label charName = new Label(chara.getName());
-        Label appearLabel = new Label("Appearance: ");
+        Label appearLabel = new Label("Appearance:   ");
         Label appear = new Label(chara.getAppearance());
-        Label personLabel = new Label("Personality: ");
+        Label personLabel = new Label("Personality:   ");
         Label person = new Label(chara.getPersonality());
-        Label goalLabel = new Label("Goal: ");
+        Label goalLabel = new Label("Goal:   ");
         Label charaGoal = new Label(chara.getGoal());
-        Label abilityLabel = new Label("Ability: ");
+        Label abilityLabel = new Label("Ability:   ");
         Label charaAbility = new Label(chara.getAbility());
-        Label weaknessLabel = new Label("Weakness: ");
+        Label weaknessLabel = new Label("Weakness:   ");
         Label charaWeakness = new Label(chara.getWeakness());
         Label errorText = new Label("");
         Label fillLabel = new Label("");
@@ -510,7 +665,7 @@ public class UserInterface {
         
         //go to modifying page
         modify.setOnAction((e)-> {
-            modifyCharaPage(stage, name);
+            modifyCharaPage(stage, chara);
         });
         
         stage.setScene(charaPageScene);
@@ -522,24 +677,22 @@ public class UserInterface {
      * where the chosen settlement's info is shown
      * and where the user can access the modifying page for that settlement.
      * @param stage The stage used by the app
-     * @param name The name of the settlement shown
+     * @param settle The Settlement
      */
-    public void settlementPage(Stage stage, String name) {
+    public void settlementPage(Stage stage, Settlement settle) {
         GridPane settlePage = new GridPane();
         
-        Settlement settle = logic.currentUser().findSettle(name);
-        
-        Label settleNameLabel = new Label("Name: ");
+        Label settleNameLabel = new Label("Name:   ");
         Label settleName = new Label(settle.getName());
-        Label descripLabel = new Label("Description: ");
+        Label descripLabel = new Label("Description:   ");
         Label descrip = new Label(settle.getDescrip());
-        Label populLabel = new Label("Population: ");
+        Label populLabel = new Label("Population:   ");
         Label popul = new Label(settle.getPopulation());
-        Label governLabel = new Label("Government: ");
+        Label governLabel = new Label("Government:   ");
         Label govern = new Label(settle.getGovern());
-        Label cultureLabel = new Label("Culture: ");
+        Label cultureLabel = new Label("Culture:   ");
         Label cultur = new Label(settle.getCulture());
-        Label geoLabel = new Label("Geography: ");
+        Label geoLabel = new Label("Geography:   ");
         Label geo = new Label(settle.getGeography());
         Label errorText = new Label("");
         Label fillLabel = new Label("");
@@ -577,7 +730,7 @@ public class UserInterface {
         
         //go to modifying page
         modify.setOnAction((e)-> {
-            modifySettlePage(stage, name);
+            modifySettlePage(stage, settle);
         });
         
         stage.setScene(settlePageScene);
@@ -588,11 +741,11 @@ public class UserInterface {
      * CHARACTER MODIFYING SCENE: 
      * where the user can enter and save changes to the character's info.
      * @param stage The stage used by the app
-     * @param name The name of the character
+     * @param chara The Character to be modified
      */
-    public void modifyCharaPage(Stage stage, String name) {
+    public void modifyCharaPage(Stage stage, maailmanluontisovellus.domain.Character chara) {
         
-        maailmanluontisovellus.domain.Character chara = logic.currentUser().findChara(name);
+        
         
         GridPane pane = new GridPane();
         
@@ -608,11 +761,23 @@ public class UserInterface {
         TextField abilityField = new TextField(chara.getAbility());
         Label weaknessLabel = new Label("Weakness: ");
         TextField weaknessField = new TextField(chara.getWeakness());
+        
         Label errorText = new Label("");
         Button confirm = new Button("Save");
         confirm.setStyle("-fx-background-color: #FFFFFF;");
         Button exit = new Button("Return");
         exit.setStyle("-fx-background-color: #FFFFFF;");
+        
+        Button genAppear = new Button("Random");
+        genAppear.setStyle("-fx-background-color: #FFFFFF;");
+        Button genPerson = new Button("Random");
+        genPerson.setStyle("-fx-background-color: #FFFFFF;");
+        Button genGoal = new Button("Random");
+        genGoal.setStyle("-fx-background-color: #FFFFFF;");
+        Button genAbility = new Button("Random");
+        genAbility.setStyle("-fx-background-color: #FFFFFF;");
+        Button genWeak = new Button("Random");
+        genWeak.setStyle("-fx-background-color: #FFFFFF;");
         
         int x = 2;
         int y = 7;
@@ -621,14 +786,19 @@ public class UserInterface {
         pane.add(enterCharName, 2, 1);
         pane.add(appearLabel, 1, 2);
         pane.add(appearanceField, 2, 2);
+        pane.add(genAppear, 3, 2);
         pane.add(personLabel, 1, 3);
         pane.add(personalityField, 2, 3);
+        pane.add(genPerson, 3, 3);
         pane.add(goalLabel, 1, 4);
         pane.add(goalField, 2, 4);
+        pane.add(genGoal, 3, 4);
         pane.add(abilityLabel, 1, 5);
         pane.add(abilityField, 2, 5);
+        pane.add(genAbility, 3, 5);
         pane.add(weaknessLabel, 1, 6);
         pane.add(weaknessField, 2, 6);
+        pane.add(genWeak, 3, 6);
         pane.add(errorText, x, y);
         pane.add(confirm, x, y+1);
         pane.add(exit, x+1, y+2);
@@ -640,7 +810,7 @@ public class UserInterface {
         
         //return without saving
         exit.setOnAction((e)-> {
-            characterPage(stage, name);
+            characterPage(stage, chara);
         });
         
          
@@ -652,13 +822,42 @@ public class UserInterface {
             String goal = goalField.getText();
             String ability = abilityField.getText();
             String weakness = weaknessField.getText();
-            if (logic.modifyCharaName(name, charaName)) {
-                logic.modifyChara(charaName, appearance, personality, goal, ability, weakness);
-                characterPage(stage, charaName);
-            } else {
-                errorText.setText("Taken or empty character name");
+            try {
+                if (logic.modifyCharaName(chara.getName(), charaName)) {
+                    logic.modifyChara(chara, appearance, personality, goal, ability, weakness);
+                    characterPage(stage, chara);
+                } else {
+                    errorText.setText("Taken or empty character name");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+        });
+        
+        //generate random appearance
+        genAppear.setOnAction((e)-> {
+            appearanceField.setText(logic.getRangen().appearance());
+        });
+        
+        //generate random personality
+        genPerson.setOnAction((e)-> {
+            personalityField.setText(logic.getRangen().personality());
+        });
+        
+        //generate random goal
+        genGoal.setOnAction((e)-> {
+            goalField.setText(logic.getRangen().goal());
+        });
+        
+        //generate random abilities
+        genAbility.setOnAction((e)-> {
+            abilityField.setText(logic.getRangen().ability());
+        });
+        
+        //generate random weakness
+        genWeak.setOnAction((e)-> {
+            weaknessField.setText(logic.getRangen().weakness());
         });
         
         stage.setScene(scene);
@@ -669,10 +868,9 @@ public class UserInterface {
      * SETTLEMENT MODIFYING SCENE: 
      * where the user can enter and save changes to the settlement's info.
      * @param stage The stage used by the app
-     * @param name The name of the settlement
+     * @param settle The Settlement to be modified
      */
-    public void modifySettlePage(Stage stage, String name) {
-        Settlement settle = logic.currentUser().findSettle(name);
+    public void modifySettlePage(Stage stage, Settlement settle) {
         
         GridPane pane = new GridPane();
         
@@ -688,24 +886,41 @@ public class UserInterface {
         TextField cultur = new TextField(settle.getCulture());
         Label geoLabel = new Label("Geography: ");
         TextField geo = new TextField(settle.getGeography());
+        
         Label errorText = new Label("");
         Button confirm = new Button("Save");
         confirm.setStyle("-fx-background-color: #FFFFFF;");
         Button exit = new Button("Return");
         exit.setStyle("-fx-background-color: #FFFFFF;");
         
+        Button genDescrip = new Button("Random");
+        genDescrip.setStyle("-fx-background-color: #FFFFFF;");
+        Button genPopul = new Button("Random");
+        genPopul.setStyle("-fx-background-color: #FFFFFF;");
+        Button genGovern = new Button("Random");
+        genGovern.setStyle("-fx-background-color: #FFFFFF;");
+        Button genCulture = new Button("Random");
+        genCulture.setStyle("-fx-background-color: #FFFFFF;");
+        Button genGeo = new Button("Random");
+        genGeo.setStyle("-fx-background-color: #FFFFFF;");
+        
         pane.add(enterSettleNameLabel, 1, 1);
         pane.add(enterSettleName, 2, 1);
         pane.add(descripLabel, 1, 2);
         pane.add(descrip, 2, 2);
+        pane.add(genDescrip, 3, 2);
         pane.add(populLabel, 1, 3);
         pane.add(popul, 2, 3);
+        pane.add(genPopul, 3, 3);
         pane.add(governLabel, 1, 4);
         pane.add(govern, 2, 4);
+        pane.add(genGovern, 3, 4);
         pane.add(cultureLabel, 1, 5);
         pane.add(cultur, 2, 5);
+        pane.add(genCulture, 3, 5);
         pane.add(geoLabel, 1, 6);
         pane.add(geo, 2, 6);
+        pane.add(genGeo, 3, 6);
         pane.add(errorText, 2, 7);
         pane.add(confirm, 2, 8);
         pane.add(exit, 2, 9);
@@ -717,7 +932,7 @@ public class UserInterface {
         
         //return without saving
         exit.setOnAction((e)-> {
-            this.settlementPage(stage, name);
+            this.settlementPage(stage, settle);
         });
         
          
@@ -729,13 +944,42 @@ public class UserInterface {
             String government = govern.getText();
             String culture = cultur.getText();
             String geography = geo.getText();
-            if (logic.modifySettleName(name, settleName)) {
-                logic.modifySettle(settleName, description, population, government, culture, geography);
-                mainPage(stage);
-            } else {
-                errorText.setText("Taken or empty character name");
+            try {
+                if (logic.modifySettleName(settle.getName(), settleName)) {
+                    logic.modifySettle(settle, description, population, government, culture, geography);
+                    settlementPage(stage, settle);
+                } else {
+                    errorText.setText("Taken or empty character name");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+        });
+        
+        //generate random description
+        genDescrip.setOnAction((e)-> {
+            descrip.setText(logic.getRangen().description());
+        });
+        
+        //generate random population description
+        genPopul.setOnAction((e)-> {
+            popul.setText(logic.getRangen().population());
+        });
+        
+        //generate random leader
+        genGovern.setOnAction((e)-> {
+            govern.setText(logic.getRangen().government());
+        });
+        
+        //generate random culture description
+        genCulture.setOnAction((e)-> {
+            cultur.setText(logic.getRangen().culture());
+        });
+        
+        //generate random geographical description
+        genGeo.setOnAction((e)-> {
+            geo.setText(logic.getRangen().geography());
         });
         
         stage.setScene(settleCreateScene);

@@ -1,4 +1,3 @@
-
 package maailmanluontisovellus.domain;
 
 import java.util.ArrayList;
@@ -7,11 +6,13 @@ import java.util.ArrayList;
 public class Logic {
     private ArrayList<User> userlist;
     private User currentUser;
+    private RandomGenerator rangen;
     
     public Logic() {
         this.userlist = new ArrayList<>();
+        this.rangen = new RandomGenerator();
     }
-    
+ 
     /**
      * Returns the user that is currently logged in
      * @return Logged-in user
@@ -20,10 +21,22 @@ public class Logic {
         return currentUser;
     }
     
+    public RandomGenerator getRangen() {
+        return rangen;
+    }
+    
+    public ArrayList<User> getUserlist() {
+        return userlist;
+    }
+    
+    public void setUserlist(ArrayList users) {
+        this.userlist = users;
+    }
+    
     /**
      * Adds a new user to the list
      * if there is no user with the same username yet
-     * and if neither the username nor the password are empty.
+     * and if neither the username nor the password are empty or wrong.
      * @param name  Username submitted by the user
      * @param password  Password submitted by the user
      * @return Returns the boolean on if creating a new user succeeded
@@ -35,11 +48,12 @@ public class Logic {
                 okay = false;
             } 
         }
-         if (name.isEmpty() || password.isEmpty()) {
+        if (name.isEmpty() || password.isEmpty() || name.matches("(.*);(.*)") || password.matches("(.*);(.*)") || name.length() > 20 || password.length() > 20) {
             okay = false;
         }
         if (okay) {
-            userlist.add(new User(name, password, userlist.size()));
+            User user = new User(name, password, userlist.size());
+            userlist.add(user);
         } 
         return okay;
     }
@@ -78,28 +92,34 @@ public class Logic {
     /**
      * Creates a new character for the logged-in user.
      * @param name  The name for the character submitted by the user
-     * @return Returns the boolean on if creating the character succeeded
+     * @return Returns the created Character, or null if failed
      */
-    public boolean newChara(String name) {
-        if (name.isEmpty()) {
-            return false;
+    public Character newChara(String name) {
+        if (name.length() > 50) {
+            String n = name.substring(0, 50);
+            name = n;
+        }
+        if (name.isEmpty() || name.matches("(.*);(.*)")) {
+            return null;
         } else {
-            boolean success = currentUser.addChara(name);
-            return success;
+            return currentUser.addChara(name);
         }   
     }
     
     /**
      * Creates a new settlement for the logged-in user.
      * @param name  The name for the settlement submitted by the user
-     * @return Returns the boolean on if creating the settlement succeeded
+     * @return Returns the created Settlement, or null if failed
      */
-    public boolean newSettle(String name) {
-        if (name.isEmpty()) {
-            return false;
+    public Settlement newSettle(String name) {
+        if (name.length() > 50) {
+            String n = name.substring(0, 50);
+            name = n;
+        }
+        if (name.isEmpty() || name.matches("(.*);(.*)")) {
+            return null;
         } else {
-            boolean success = currentUser.addSettle(name);
-            return success;
+            return currentUser.addSettle(name);
         }   
     }
     
@@ -110,9 +130,12 @@ public class Logic {
      * @return Returns the boolean on if replacing the name succeeded
      */
     public boolean modifyCharaName(String oldName, String newName) {
-        if (currentUser.findChara(newName) == null && currentUser.findChara(oldName) != null) {
+        if (newName.length() > 50) {
+            String n = newName.substring(0, 50);
+            newName = n;
+        }
+        if (currentUser.findChara(newName) == null && currentUser.findChara(oldName) != null && newName.matches("(.*);(.*)") == false) {
             currentUser.findChara(oldName).setName(newName);
-            currentUser.replaceCharaName(oldName, newName);
             return true;
         } else if (oldName.equals(newName)) {
             return true;
@@ -128,9 +151,12 @@ public class Logic {
      * @return Returns the boolean on if replacing the name succeeded
      */
     public boolean modifySettleName(String oldName, String newName) {
-        if (currentUser.findSettle(newName) == null && currentUser.findSettle(oldName) != null) {
+        if (newName.length() > 50) {
+            String n = newName.substring(0, 50);
+            newName = n;
+        }
+        if (currentUser.findSettle(newName) == null && currentUser.findSettle(oldName) != null && newName.matches("(.*);(.*)") == false) {
             currentUser.findSettle(oldName).setName(newName);
-            currentUser.replaceSettleName(oldName, newName);
             return true;
         } else if (oldName.equals(newName)) {
             return true;
@@ -141,37 +167,27 @@ public class Logic {
     
     /**
      * Changes the saved info for the character except for its name.
-     * @param characterName The name of the character to be modified
+     * @param chara The Character to be modified
      * @param appearance    The character's appearance submitted by the user
      * @param personality   The character's personality submitted by the user
      * @param goal  The character's goal submitted by the user
      * @param ability   The character's ability submitted by the user
      * @param weakness  The character's weakness submitted by the user
      */
-    public void modifyChara(String characterName, String appearance, String personality, String goal, String ability, String weakness) {
-        currentUser.findChara(characterName).setAppearance(appearance);
-        currentUser.findChara(characterName).setPersonality(personality);
-        currentUser.findChara(characterName).setGoal(goal);
-        currentUser.findChara(characterName).setAbility(ability);
-        currentUser.findChara(characterName).setWeakness(weakness);
+    public void modifyChara(Character chara, String appearance, String personality, String goal, String ability, String weakness) {
+        chara.massModify(appearance, personality, goal, ability, weakness);
     }
     
     /**
      * Changes the saved info for the settlement except for its name.
-     * @param settleName    The name of the settlement to be modified
+     * @param settle    The Settlement to be modified
      * @param description   The description submitted by the user
      * @param population    The population submitted by the user
      * @param government    The government submitted by the user
      * @param culture   The culture submitted by the user
      * @param geography The geography submitted by the user
      */
-    public void modifySettle(String settleName, String description, String population, String government, String culture, String geography) {
-        currentUser.findSettle(settleName).setDescrip(description);
-        currentUser.findSettle(settleName).setPopulation(population);
-        currentUser.findSettle(settleName).setGovern(government);
-        currentUser.findSettle(settleName).setCulture(culture);
-        currentUser.findSettle(settleName).setGeography(geography);
-    }
-    
-    
+    public void modifySettle(Settlement settle, String description, String population, String government, String culture, String geography) {
+        settle.massModify(description, population, government, culture, geography);
+    }  
 }

@@ -1,26 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package maailmanluontisovellus.domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 
-/**
- *
- * @author halauri
- */
 public class User {
     private int id;
     private String name;
     private String password;
     private ArrayList<Character> charas;
     private ArrayList<Settlement> settles;
-    private HashMap<String, Integer> charaIdFinder;
-    private HashMap<String, Integer> settleIdFinder;
     
     public User(String name, String password, int id) {
         this.id = id;
@@ -28,8 +15,6 @@ public class User {
         this.password = password;
         this.charas = new ArrayList<>();
         this.settles = new ArrayList<>();
-        this.charaIdFinder = new HashMap<>();
-        this.settleIdFinder = new HashMap<>();
     }
     
     public String getName() {
@@ -52,13 +37,27 @@ public class User {
         return settles;
     }
     
+    public void setCharas(ArrayList charalist) {
+        if (charalist == null) {
+            charalist = new ArrayList<>();
+        }
+        this.charas = charalist;
+    }
+    
+    public void setSettles(ArrayList settlelist) {
+        if (settlelist == null) {
+            settlelist = new ArrayList<>();
+        }
+        this.settles = settlelist;
+    }
+    
     /**
      * Adds a new character to the user's character list
      * if there is no other character by that name yet.
      * @param name  The name of the character submitted by the user
-     * @return Returns the boolean on if character creation was successful
+     * @return Returns the created Character, or null if not successful
      */
-    public boolean addChara(String name) {
+    public Character addChara(String name) {
         boolean okay = true;
         for (int i = 0; i < charas.size(); i++) {
             if (charas.get(i).getName().equals(name)) {
@@ -67,11 +66,11 @@ public class User {
         }
         if (okay)  {
             int id = charas.size();
-            this.charas.add(new Character(name, id));
-            this.charaIdFinder.put(name, id);
-            return true;
+            Character chara = new Character(name, id);
+            this.charas.add(chara);
+            return chara;
         } else {
-            return false;
+            return null;
         }
     }
     
@@ -79,9 +78,9 @@ public class User {
      * Adds a new settlement to the user's settlement list
      * if there is no other settlement by that name yet.
      * @param name  The name of the settlement submitted by the user
-     * @return Returns the boolean on if settlement creation was successful
+     * @return Returns the created Settlement, or null if not successful
      */
-    public boolean addSettle(String name) {
+    public Settlement addSettle(String name) {
         boolean okay = true;
         for (int i = 0; i < settles.size(); i++) {
             if (settles.get(i).getName().equals(name)) {
@@ -90,11 +89,11 @@ public class User {
         }
         if (okay)  {
             int id = settles.size();
-            this.settles.add(new Settlement(name, id));
-            this.settleIdFinder.put(name, id);
-            return true;
+            Settlement settle = new Settlement(name, id);
+            this.settles.add(settle);
+            return settle;
         } else {
-            return false;
+            return null;
         }
     }
     
@@ -104,11 +103,12 @@ public class User {
      * @return Character
      */
     public Character findChara(String name) {
-        if (!charaIdFinder.containsKey(name)) {
-            return null;
+        for (Character chara : charas) {
+            if (chara.getName().equals(name)) {
+                return chara;
+            }
         }
-        int id = charaIdFinder.get(name);
-        return charas.get(id);
+        return null;
     }
     
     /**
@@ -117,59 +117,11 @@ public class User {
      * @return Settlement
      */
     public Settlement findSettle(String name) {
-        if (!settleIdFinder.containsKey(name)) {
-            return null;
+        for (Settlement settle: settles) {
+            if (settle.getName().equals(name)) {
+                return settle;
+            }
         }
-        int id = settleIdFinder.get(name);
-        return settles.get(id);
-    }
-    
-    /**
-     * Updates the character's name change in the finder
-     * that is used for finding Characters by name.
-     * @param oldName   The previous name of the character
-     * @param newName   The new name for the character
-     */
-    public void replaceCharaName(String oldName, String newName) {
-        int i = charaIdFinder.get(oldName);
-        charaIdFinder.remove(oldName);
-        charaIdFinder.put(newName, i);
-    }
-    
-    /**
-     * Updates the settlement's name change in the finder
-     * that is used for finding Settlements by name.
-     * @param oldName   The settlement's previous name
-     * @param newName   The new name for the settlement
-     */
-    public void replaceSettleName(String oldName, String newName) {
-        int i = settleIdFinder.get(oldName);
-        settleIdFinder.remove(oldName);
-        settleIdFinder.put(newName, i);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User other = (User) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.password, other.password)) {
-            return false;
-        }
-        return true;
-    }
-
-    
-    
-    
+        return null;
+    } 
 }

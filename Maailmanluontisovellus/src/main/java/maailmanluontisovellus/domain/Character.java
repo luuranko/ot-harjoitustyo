@@ -1,17 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package maailmanluontisovellus.domain;
 
-import java.util.Objects;
-
-/**
- *
- * @author halauri
- */
-public class Character {
+public class Character implements Comparable<Character> {
     private int id;
     private String name;
     private String appearance;
@@ -24,6 +13,11 @@ public class Character {
     public Character(String name, int id) {
         this.name = name;
         this.id = id;
+        appearance = " ";
+        personality = " ";
+        goal = " ";
+        ability = " ";
+        weakness = " ";
     }
 
     public void setId(int id) {
@@ -47,6 +41,13 @@ public class Character {
     }
 
     public void setAppearance(String appearance) {
+        if (appearance.isEmpty()) {
+            appearance = " ";
+        }
+        if (appearance.length() > 50) {
+            String a = appearance.substring(0, 50);
+            appearance = a;
+        }
         this.appearance = appearance;
     }
 
@@ -55,6 +56,13 @@ public class Character {
     }
 
     public void setPersonality(String personality) {
+        if (personality.isEmpty()) {
+            personality = " ";
+        }
+        if (personality.length() > 50) {
+            String p = personality.substring(0, 50);
+            personality = p;
+        }
         this.personality = personality;
     }
 
@@ -63,6 +71,13 @@ public class Character {
     }
 
     public void setGoal(String goal) {
+        if (goal.isEmpty()) {
+            goal = " ";
+        }
+        if (goal.length() > 50) {
+            String g = goal.substring(0, 50);
+            goal = g;
+        }
         this.goal = goal;
     }
 
@@ -71,6 +86,13 @@ public class Character {
     }
 
     public void setAbility(String ability) {
+        if (ability.isEmpty()) {
+            ability = " ";
+        }
+        if (ability.length() > 50) {
+            String a = ability.substring(0, 50);
+            ability = a;
+        }
         this.ability = ability;
     }
 
@@ -79,25 +101,37 @@ public class Character {
     }
 
     public void setWeakness(String weakness) {
+        if (weakness.isEmpty()) {
+            weakness = " ";
+        }
+        if (weakness.length() > 50) {
+            String w = weakness.substring(0, 50);
+            weakness = w;
+        }
         this.weakness = weakness;
+    }
+    
+    /**
+     * Calls the setters for all the features except name and id.
+     * @param appearance
+     * @param personality
+     * @param goal
+     * @param ability
+     * @param weakness 
+     */
+    public void massModify(String appearance, String personality, String goal, String ability, String weakness) {
+        setAppearance(appearance);
+        setPersonality(personality);
+        setGoal(goal);
+        setAbility(ability);
+        setWeakness(weakness);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Character other = (Character) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return true;
+    public int compareTo(Character c) {
+        String own = this.name.toUpperCase();
+        String other = c.getName().toUpperCase();
+        return own.compareTo(other);
     }
     
     
